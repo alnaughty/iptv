@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "693667717563",
+    "project_id": "vtv-online-23304",
+    "storage_bucket": "vtv-online-23304.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693667717563:android:0c094bcd25771d7c2da49e",
+        "android_client_info": {
+          "package_name": "ohm.conception.vtv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693667717563-nufv6cp6s0e991gr2dkrb8klurn3531v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUUkRjdnanSg1iZArF2fE6-exjt0Oz9Io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693667717563-nufv6cp6s0e991gr2dkrb8klurn3531v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
