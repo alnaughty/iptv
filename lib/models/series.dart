@@ -1,3 +1,4 @@
+import 'package:path/path.dart';
 import 'package:vtv/models/m3u_categorized.dart';
 
 class Series {
@@ -13,6 +14,16 @@ class Series {
     return Series(
       title: json['title'] ?? "",
       entries: data.map((e) => M3uParsedEntry.fromJson(e)).toList(),
+    );
+  }
+  factory Series.fromJson2(Map<String, dynamic> json) {
+    List data = json['entries'] ?? [];
+    return Series(
+      title: json['title'] ?? "",
+      entries: data
+          .map((e) => M3uParsedEntry.embeded(
+              e['url'], e['name'], e['image'], e['duration']))
+          .toList(),
     );
   }
 

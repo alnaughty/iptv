@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vtv/core/auth_assets/auth_assets.dart';
+import 'package:vtv/services/data_handler.dart';
+import 'package:vtv/utils/global.dart';
 import 'package:vtv/utils/palette.dart';
 
 class AuthPage extends StatefulWidget {
@@ -10,6 +12,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> with AuthAssets, Palette {
+  final DatabaseHandler _dbHandler = DatabaseHandler.instance;
   late final FocusNode iconButtonNode;
   @override
   void initState() {
@@ -122,12 +125,31 @@ class _AuthPageState extends State<AuthPage> with AuthAssets, Palette {
               ),
               itemCount: buttons.length,
             ),
-            // Column(
-            //   crossAxisAlignment: CrossAxisAlignment.center,
-            //   children: [
-
-            //   ],
-            // )
+            if (userId != null) ...{
+              const SizedBox(
+                height: 30,
+              ),
+              TextButton(
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.red,
+                  ),
+                  splashFactory: InkSparkle.splashFactory,
+                ),
+                onPressed: () async {
+                  await _dbHandler.clearTable();
+                  await cacher.removeUID();
+                  setState(() {
+                    userId = null;
+                  });
+                },
+                child: const Text("Sé déconnecter"),
+              ),
+              // ignore: prefer_const_constructors
+              SizedBox(
+                height: 30,
+              ),
+            },
           ],
         ),
       ),

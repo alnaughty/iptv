@@ -11,7 +11,7 @@ class DataCacher {
 
   Future<void> setUID(String id) async => await _prefs.setString("uid", id);
   String? get uid => _prefs.getString("uid");
-
+  Future<void> removeUID() async => await _prefs.remove('uid');
   String? get playlistName => _prefs.getString("playlistName");
   Future<void> setPlaylist(String f) async =>
       await _prefs.setString("playlistName", f);

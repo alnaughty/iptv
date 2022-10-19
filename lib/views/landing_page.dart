@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vtv/core/controller/landing_controller.dart';
 import 'package:vtv/core/landing_assets/landing_assets.dart';
 import 'package:vtv/services/data_handler.dart';
@@ -20,9 +21,14 @@ class LandingPageState extends State<LandingPage>
   static final DatabaseHandler _db = DatabaseHandler.instance;
 
   late final TabController _tabController;
+  bool _isFetching = true;
   checkData() async {
-    await _db.joinedData.then((value) {
-      print(value);
+    setState(() {
+      _isFetching = true;
+    });
+    await _db.categorizeData();
+    setState(() {
+      _isFetching = false;
     });
   }
 
@@ -60,177 +66,27 @@ class LandingPageState extends State<LandingPage>
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: appmaincolor,
-      body: Container(
-        width: double.maxFinite,
-        height: size.height,
-        decoration: BoxDecoration(
-          gradient: background,
-        ),
-        child: SafeArea(
-          child: userId == null
-              ? const NoFilePage()
-              : CustomScrollView(
-                  slivers: [
-                    // Container(
-                    //     padding: const EdgeInsets.symmetric(
-                    //       horizontal: 20,
-                    //       vertical: 10,
-                    //     ),
-                    //     child: Row(
-                    //       children: [
-                    // const Hero(
-                    //   tag: "logo-f",
-                    //   child: Image(
-                    //     width: 60,
-                    //     filterQuality: FilterQuality.high,
-                    //     image: AssetImage("assets/images/logo.png"),
-                    //   ),
-                    // ),
-                    //         const Spacer(),
-                    //         Container(
-                    //           padding: const EdgeInsets.symmetric(
-                    //             vertical: 5,
-                    //             horizontal: 5,
-                    //           ),
-                    //           height: 40,
-                    //           // width: w * .4,
-                    //           decoration: BoxDecoration(
-                    //             color: Colors.black.withOpacity(.3),
-                    //             borderRadius: BorderRadius.circular(
-                    //               100,
-                    //             ),
-                    //           ),
-                    //           alignment: Alignment.center,
-                    //           child: Row(
-                    //             children: [
-                    //               ListView.separated(
-                    //                 shrinkWrap: true,
-                    //                 scrollDirection: Axis.horizontal,
-                    // itemBuilder: (_, index) => InkWell(
-                    //   focusColor: Colors.white,
-                    //   autofocus: true,
-                    //   focusNode: focusNodes[_controller.currentIndex],
-                    //   onFocusChange: (bool f) {
-                    //     // if (f) {
-                    //     //   print("FOCUS SA ${tabs[index]}");
-                    //     //   _vm.update(index);
-                    //     //   _controller.index = index;
-                    //     // }
-                    //     focusNodes[_controller.currentIndex]
-                    //         .requestFocus();
-                    //     setState(() {
-                    //       _controller.currentIndex = index;
-                    //     });
-                    //   },
-                    //   onTap: () {
-                    //     setState(() {
-                    //       _controller.currentIndex = index;
-                    //     });
-                    //     // _vm.update(index);
-                    //     // _controller.index = index;
-                    //   },
-                    //   child: AnimatedContainer(
-                    //     duration: const Duration(
-                    //       milliseconds: 700,
-                    //     ),
-                    //     padding: const EdgeInsets.symmetric(
-                    //       horizontal: 20,
-                    //     ),
-                    //     decoration: BoxDecoration(
-                    //       color: index == _controller.currentIndex
-                    //           ? Colors.white24
-                    //           : Colors.transparent,
-                    //       borderRadius: BorderRadius.circular(
-                    //         100,
-                    //       ),
-                    //     ),
-                    //     child: Center(
-                    //       child: Text(
-                    //         tabs[index],
-                    //         style: const TextStyle(
-                    //           color: Colors.white,
-                    //           // fontSize: 16,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    //                 separatorBuilder: (_, x) => const SizedBox(
-                    //                   width: 10,
-                    //                 ),
-                    //                 itemCount: tabs.length,
-                    //               ),
-                    //               const SizedBox(
-                    //                 width: 10,
-                    //               ),
-                    // PopupMenuButton<int>(
-                    //   onSelected: (int i) async {
-                    //     // await Navigator.pushNamed(
-                    //     //   context,
-                    //     //   i == 0 ? "/favorite_page" : "/auth_page",
-                    //     // );
-                    //   },
-                    //   padding: const EdgeInsets.all(0),
-                    //   color: dark,
-                    //   icon: const Icon(
-                    //     Icons.more_horiz_rounded,
-                    //     color: Colors.white,
-                    //   ),
-                    //   offset: const Offset(0, 30),
-                    //   itemBuilder: (_) => [
-                    //     if (userId != null) ...{
-                    //       PopupMenuItem<int>(
-                    //         value: 0,
-                    //         child: itemContainer(
-                    //           const Icon(
-                    //             Icons.favorite,
-                    //             color: Colors.white,
-                    //             size: 20,
-                    //           ),
-                    //           "Favoris",
-                    //         ),
-                    //       ),
-                    //       PopupMenuItem<int>(
-                    //         value: 3,
-                    //         child: itemContainer(
-                    //           const Icon(
-                    //             Icons.history,
-                    //             color: Colors.white,
-                    //             size: 20,
-                    //           ),
-                    //           "Historique",
-                    //         ),
-                    //       ),
-                    //     },
-                    //     PopupMenuItem<int>(
-                    //       value: 1,
-                    //       child: itemContainer(
-                    //         const Icon(
-                    //           Icons.settings,
-                    //           color: Colors.white,
-                    //           size: 20,
-                    //         ),
-                    //         "Réglages",
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    SliverAppBar(
-                      floating: true,
-                      automaticallyImplyLeading: false,
-                      elevation: 0,
-                      backgroundColor: Colors.transparent,
-                      expandedHeight: 60,
-                      // pinned: true,
-                      leading: const SafeArea(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: appmaincolor,
+        body: Container(
+          width: double.maxFinite,
+          height: size.height,
+          decoration: BoxDecoration(
+            gradient: background,
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      const SafeArea(
                         child: Hero(
                           tag: "logo-f",
                           child: Image(
@@ -240,178 +96,181 @@ class LandingPageState extends State<LandingPage>
                           ),
                         ),
                       ),
-                      actions: [
-                        ...tabs.map(
-                          (e) {
-                            final int index = tabs.indexOf(e);
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: InkWell(
-                                  focusColor: Colors.white,
-                                  focusNode:
-                                      focusNodes[_controller.currentIndex],
-                                  onFocusChange: (bool f) {
-                                    // if (f) {
-                                    //   print("FOCUS SA ${tabs[index]}");
-                                    //   _vm.update(index);
-                                    //   _controller.index = index;
-                                    // }
-                                    focusNodes[_controller.currentIndex]
-                                        .requestFocus();
-                                    setState(() {
-                                      _controller.currentIndex = index;
-                                    });
-                                  },
-                                  onTap: () {
-                                    setState(() {
-                                      _controller.currentIndex = index;
-                                    });
-                                    // _vm.update(index);
-                                    // _controller.index = index;
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: const Duration(
-                                      milliseconds: 700,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 20,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: index == _controller.currentIndex
-                                          ? Colors.white24
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(
-                                        100,
-                                      ),
-                                    ),
-                                    height: 40,
-                                    child: Center(
-                                      child: Text(
-                                        tabs[index],
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          // fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 5,
                         ),
-                        PopupMenuButton<int>(
-                          onSelected: (int i) async {
-                            await Navigator.pushNamed(
-                              context,
-                              i == 0
-                                  ? "/favorite_page"
-                                  : i == 1
-                                      ? "/auth_page"
-                                      : "/history_page",
-                            );
-                            // await Navigator.pushNamed(
-                            //   context,
-                            //   i == 0 ? "/favorite_page" : "/auth_page",
-                            // );
-                          },
-                          padding: const EdgeInsets.all(0),
-                          color: dark,
-                          icon: const Icon(
-                            Icons.more_horiz_rounded,
-                            color: Colors.white,
+                        height: 40,
+                        // width: w * .4,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(.3),
+                          borderRadius: BorderRadius.circular(
+                            100,
                           ),
-                          offset: const Offset(0, 30),
-                          itemBuilder: (_) => [
-                            if (userId != null) ...{
-                              PopupMenuItem<int>(
-                                value: 0,
-                                child: itemContainer(
-                                  const Icon(
-                                    Icons.favorite,
-                                    color: Colors.white,
-                                    size: 20,
+                        ),
+                        alignment: Alignment.center,
+                        child: Row(
+                          children: [
+                            ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (_, index) => InkWell(
+                                focusColor: Colors.white,
+                                autofocus: true,
+                                focusNode: FocusNode(
+                                  debugLabel: tabs[index],
+                                ),
+                                onFocusChange: (bool f) {
+                                  if (f) {
+                                    print("FOCUS SA ${tabs[index]}");
+                                    // vm.update(index);
+                                    // _controller.index = index;
+                                  }
+                                },
+                                onTap: () {
+                                  // _vm.update(index);
+                                  // _controller.index = index;
+                                  _controller.currentIndex = index;
+                                  _tabController.index = index;
+                                  setState(() {});
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(
+                                    milliseconds: 700,
                                   ),
-                                  "Favoris",
-                                ),
-                              ),
-                              PopupMenuItem<int>(
-                                value: 3,
-                                child: itemContainer(
-                                  const Icon(
-                                    Icons.history,
-                                    color: Colors.white,
-                                    size: 20,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
                                   ),
-                                  "Historique",
+                                  decoration: BoxDecoration(
+                                    color: index == _controller.currentIndex
+                                        ? Colors.white24
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(
+                                      100,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      tabs[index],
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        // fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            },
-                            PopupMenuItem<int>(
-                              value: 1,
-                              child: itemContainer(
-                                const Icon(
-                                  Icons.settings,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                                "Réglages",
+                              separatorBuilder: (_, x) => const SizedBox(
+                                width: 10,
                               ),
+                              itemCount: tabs.length,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            PopupMenuButton<int>(
+                              onSelected: (int i) async {
+                                await Navigator.pushNamed(
+                                  context,
+                                  i == 0
+                                      ? "/favorite_page"
+                                      : i == 1
+                                          ? "/auth_page"
+                                          : "/history_page",
+                                );
+                                // await Navigator.pushNamed(
+                                //   context,
+                                //   i == 0 ? "/favorite_page" : "/auth_page",
+                                // );
+                              },
+                              padding: const EdgeInsets.all(0),
+                              color: dark,
+                              icon: const Icon(
+                                Icons.more_horiz_rounded,
+                                color: Colors.white,
+                              ),
+                              offset: const Offset(0, 30),
+                              itemBuilder: (_) => [
+                                if (userId != null) ...{
+                                  PopupMenuItem<int>(
+                                    value: 0,
+                                    child: itemContainer(
+                                      const Icon(
+                                        Icons.favorite,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                      "Favoris",
+                                    ),
+                                  ),
+                                  PopupMenuItem<int>(
+                                    value: 3,
+                                    child: itemContainer(
+                                      const Icon(
+                                        Icons.history,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                      "Historique",
+                                    ),
+                                  ),
+                                },
+                                PopupMenuItem<int>(
+                                  value: 1,
+                                  child: itemContainer(
+                                    const Icon(
+                                      Icons.settings,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    "Réglages",
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          AnimatedSwitcher(
-                            duration: switcherDuration,
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: tabContents[_controller.currentIndex],
-                            ),
-                          )
-                        ],
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-          // child: SingleChildScrollView(
-          //   padding: const EdgeInsets.symmetric(vertical: 10),
-          //   child: Column(
-          //     children: [
-
-          //       /// BODY VIEW
-          // AnimatedSwitcher(
-          //   duration: switcherDuration,
-          //   child: Align(
-          //     alignment: Alignment.topCenter,
-          //     child: tabContents[_controller.currentIndex],
-          //   ),
-          //   // child: heights.isEmpty
-          //   //     ? Container()
-          //   //     : AnimatedContainer(
-          //   //         duration: switcherDuration,
-          //   //         height: heights[_controller.currentIndex],
-          //   //         child: TabBarView(
-          //   //           controller: _tabController,
-          //   //           children: tabContents
-          //   //               .map(
-          //   //                 (e) => TabContent(
-          //   //                   child: e,
-          //   //                 ),
-          //   //               )
-          //   //               .toList(),
-          //   //         ),
-          //   //       ),
-          // )
-          //     ],
-          //   ),
-          // ),
+                Expanded(
+                  child: userId == null
+                      ? const NoFilePage()
+                      : _isFetching
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  LoadingAnimationWidget.halfTriangleDot(
+                                    color: Colors.white,
+                                    size: 60,
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  const Text(
+                                    "Récupération de données",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : TabBarView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: _tabController,
+                              children: tabContents,
+                            ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

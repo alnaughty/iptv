@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vtv/views/landing_page_children/live_page.dart';
+import 'package:vtv/views/landing_page_children/movie_page.dart';
+import 'package:vtv/views/landing_page_children/series_page.dart';
 
 class LandingAssets {
   final Duration switcherDuration = const Duration(milliseconds: 500);
@@ -25,26 +27,26 @@ class LandingAssets {
       )
       .toList();
   final GlobalKey<LivePageState> _kLive = GlobalKey<LivePageState>();
-  final GlobalKey _kFilms = GlobalKey();
-  final GlobalKey _kSeries = GlobalKey();
+  final GlobalKey<MoviePageState> _kFilms = GlobalKey<MoviePageState>();
+  final GlobalKey<SeriesPageState> _kSeries = GlobalKey<SeriesPageState>();
   final GlobalKey _kInstruction = GlobalKey();
 
   late final List<Widget> tabContents = [
     LivePage(
       key: _kLive,
     ),
-    Container(
+    MoviePage(
       key: _kFilms,
-      height: 600,
-      width: double.infinity,
-      color: Colors.blue,
     ),
-    Container(
+    SeriesPage(
       key: _kSeries,
-      height: 900,
-      width: double.infinity,
-      color: Colors.green,
     ),
+    // Container(
+    //   key: _kSeries,
+    //   height: 900,
+    //   width: double.infinity,
+    //   color: Colors.green,
+    // ),
     Container(
       key: _kInstruction,
       height: 500,

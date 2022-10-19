@@ -96,27 +96,14 @@ class _ConnectViaCredentialsState extends State<ConnectViaCredentials>
         await cacher.setPlaylist(
           _playlist.text,
         );
-        await categorizeParse(File(v)).then((listData) async {
-          if (listData != null) {
-            _isLoading = false;
-            percent = 0;
-            data = listData;
-            setState(() {});
-            // await Navigator.pushReplacementNamed(context, "/landing_page");
-          } else {
-            setState(() {
-              _isLoading = false;
-              percent = 0;
-              loadingText = "Récupération des données : $percent%";
-            });
-          }
-        }).onError((error, stackTrace) {
+        await categorizeParse(File(v)).onError((error, stackTrace) {
           setState(() {
             _isLoading = false;
             percent = 0;
             loadingText = "Récupération des données : $percent%";
           });
-        });
+        }).whenComplete(() async =>
+            await Navigator.pushReplacementNamed(context, "/landing_page"));
       } else {
         print("WARA MA SAVE");
         setState(() {

@@ -1,10 +1,11 @@
 import 'package:vtv/models/series.dart';
+import "package:m3u_z_parser/src/models/m3u_entry.dart";
 
 class M3UCategorized {
   final String group;
   final List<Series> series;
-  final List<M3uParsedEntry> lives;
-  final List<M3uParsedEntry> movies;
+  final List<M3uEntry> lives;
+  final List<Series> movies;
   // List<M3uParsedEntry> entries;
   // M3UType type;
 
@@ -35,21 +36,23 @@ class M3UCategorized {
   factory M3UCategorized.withData({
     required String title,
     required List<Series> series,
+    required List<Series> movies,
+    required List<M3uEntry> lives,
   }) =>
       M3UCategorized(
         series: series,
-        movies: [],
-        lives: [],
+        movies: movies,
+        lives: lives,
         group: title,
       );
-  factory M3UCategorized.fromJson(Map<String, dynamic> json) {
+  factory M3UCategorized.fromJson(
+      Map<String, dynamic> json, List<M3uEntry> live) {
     final List series = json['series'] ?? [];
     final List movies = json['movies'] ?? [];
-    final List lives = json['lives'] ?? [];
     return M3UCategorized(
       group: json['name'],
-      lives: lives.map((e) => M3uParsedEntry.fromJson(e)).toList(),
-      movies: movies.map((e) => M3uParsedEntry.fromJson(e)).toList(),
+      lives: live,
+      movies: movies.map((e) => Series.fromJson(e)).toList(),
       series: series.map((e) => Series.fromJson(e)).toList(),
     );
   }

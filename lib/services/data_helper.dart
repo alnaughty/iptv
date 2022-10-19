@@ -30,7 +30,7 @@ mixin DataHelper implements M3UHandler, FirebaseAuthServices {
         if (textCallback != null) {
           textCallback("Conversion de données");
         }
-        data = await categorizeParse(File(v));
+        await categorizeParse(File(v));
         callback(true);
       } else {
         callback(false);

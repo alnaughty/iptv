@@ -119,7 +119,7 @@ class M3UHandler {
     }
   }
 
-  Future<List<M3UCategorized>?> categorizeParse(File file) async {
+  Future<void> categorizeParse(File file) async {
     try {
       await _dbHandler.clearTable();
       // ignore: no_leading_underscores_for_local_identifiers
@@ -133,7 +133,7 @@ class M3UHandler {
         final List<M3uEntry> _genEnts = entry.value as List<M3uEntry>;
         for (M3uEntry entry in _genEnts) {
           // print("DURATION ${entry.duration}");
-          print("ENTRY : ${entry.title}");
+          // print("ENTRY : ${entry.title}");
           await _dbHandler.addEntry(
             catId,
             M3uParsedEntry.fromJson(
@@ -142,11 +142,12 @@ class M3UHandler {
           );
         }
       }
+      await _dbHandler.categorizeData();
       print("CATEGORIZED!");
-      return _dbHandler.joinedData;
+      return;
     } catch (e) {
       print("ERROR SA CONVERT: $e");
-      return null;
+      return;
     }
   }
 }

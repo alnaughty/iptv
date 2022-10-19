@@ -376,10 +376,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "41d6ceebb058d360fa035c666769199c851d4da1"
+      resolved-ref: "089ae43389f04c2d4964e1a62fe777fef28d7300"
       url: "https://github.com/alnaughty/zm3u.git"
     source: git
-    version: "0.0.3"
+    version: "0.0.4"
   mac_address:
     dependency: "direct main"
     description:

@@ -29,7 +29,7 @@ class _NoFilePageState extends State<NoFilePage> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height,
+      height: size.height - 90,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
